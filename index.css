@@ -1,0 +1,10 @@
+html {
+  text-align: center;
+}
+body{
+  color : black;
+  font-size : 40px;
+  width: 20%;
+  margin: 0 auto;
+  background-color: white;
+}
