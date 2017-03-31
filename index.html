@@ -9,51 +9,32 @@
     <script type="text/javascript" src='jquery.js'></script>
     <script type="text/javascript">
       function getrepo(){
-        var repoissuePromises = [];
         var hoodie = $.ajax({
           url : 'https://api.github.com/repos/hoodiehq/hoodie/issues',
           method : 'GET'
         });
-        repoissuePromises.push(hoodie);
         var camp = $.ajax({
           url : 'https://api.github.com/repos/hoodiehq/camp/issues',
           method : 'GET'
         });
-        repoissuePromises.push(camp);
         var hoodie_server = $.ajax({
           url : 'https://api.github.com/repos/hoodiehq/hoodie-server/issues',
           method : 'GET'
         });
-        repoissuePromises.push(hoodie_server);
         var hoodie_app_tracker = $.ajax({
           url : 'https://api.github.com/repos/hoodiehq/hoodie-app-tracker/issues',
           method : 'GET'
         });
-        repoissuePromises.push(hoodie_app_tracker);
         var hoodie_client = $.ajax({
           url : 'https://api.github.com/repos/hoodiehq/hoodie-client/issues',
           method : 'GET'
         });
-        repoissuePromises.push(hoodie_client);
         var hoodie_admin = $.ajax({
           url : 'https://api.github.com/repos/hoodiehq/hoodie-admin/issues',
           method : 'GET'
         });
-        repoissuePromises.push(hoodie_admin);
-        $.when.apply($,repoissuePromises).done(function(repoissueResults){
-          console.log(repoissueResults)
-          // var label_count = []
-          // var repo = []
-          // for(var i=0;i<repoissueResults.length;i++){
-          //   repo[i] = repoissueResults[i].responseJSON
-          // }
-          // console.log(repo)
-            // for(var j=0;j<repoissueResults[i].responseJSON.length;j++){
-            //   for(var k=0;k<repoissueResults[i].responseJSON[j].labels.length;k++){
-            //     console.log(k)
-            //     console.log(repoissueResults.responseJSON.labels)
-            //   }
-            // }
+        $.when(hoodie,camp,hoodie_server,hoodie_app_tracker,hoodie_client,hoodie_admin).done(function(repo1,repo2,repo3,repo4,repo5,repo6){
+          console.log(repo1)
         })
       }
       getrepo();
