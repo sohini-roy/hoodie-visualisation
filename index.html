@@ -8,37 +8,75 @@
   <body>
     <script type="text/javascript" src='jquery.js'></script>
     <script type="text/javascript">
-      function getrepo(){
-        var hoodie = $.ajax({
-          url : 'https://api.github.com/repos/hoodiehq/hoodie/issues',
-          method : 'GET'
-        });
-        var camp = $.ajax({
-          url : 'https://api.github.com/repos/hoodiehq/camp/issues',
-          method : 'GET'
-        });
-        var hoodie_server = $.ajax({
-          url : 'https://api.github.com/repos/hoodiehq/hoodie-server/issues',
-          method : 'GET'
-        });
-        var hoodie_app_tracker = $.ajax({
-          url : 'https://api.github.com/repos/hoodiehq/hoodie-app-tracker/issues',
-          method : 'GET'
-        });
-        var hoodie_client = $.ajax({
-          url : 'https://api.github.com/repos/hoodiehq/hoodie-client/issues',
-          method : 'GET'
-        });
-        var hoodie_admin = $.ajax({
-          url : 'https://api.github.com/repos/hoodiehq/hoodie-admin/issues',
-          method : 'GET'
-        });
-        $.when(hoodie,camp,hoodie_server,hoodie_app_tracker,hoodie_client,hoodie_admin).done(function(repo1,repo2,repo3,repo4,repo5,repo6){
-          console.log(repo1)
-        })
+    function getrepo(){
+      var token = "7467572195c4052de5a018fd339990160d011504"
+      var repoDummyPromises = []
+      var repolist = [
+      {
+        name : "hoodie",
+        url : "hoodiehq/hoodie"
+      },
+      {
+        name : "camp",
+        url : "hoodiehq/camp"
+      },
+      {
+        name : "hoodie-server",
+        url : "hoodiehq/hoodie-server"
+      },
+      {
+        name : "hoodie-app-tracker",
+        url : "hoodiehq/hoodie-app-tracker"
+      },
+      {
+        name : "hoodie-client",
+        url : "hoodiehq/hoodie-client"
+      },
+      {
+        name : "hoodie-admin",
+        url : "hoodiehq/hoodie-admin"
       }
-      getrepo();
-    </script>
+      ]
+      for(var i=0;i<repolist.length;i++){
+        var repoDummy = $.ajax({
+          url : "https://api.github.com/repos/" + repolist[i].url + "/issues?access_token"+token,
+          method : 'GET'
+        })
+        repoDummyPromises.push(repoDummy);
+      }
+      $.when.apply($,repoDummyPromises).then(function(){
+        var repos = [];
+        var dummyLabelDictionary = {};
+        for(var i=0;i<repolist.length;i++){
+          repos.push({name : repolist[i].name,issues : arguments[i][0]});
+        }
+        for(var i=0;i <repos.length;i++){
+          var repo_issues = repos[i].issues
+          // console.log(repos[i].issues);
+          // console.log(repo_issues);
+          for(var j= 0;j<repo_issues.length;j++){
+            var repo_issues_label = repos[i].issues[j].labels
+            // console.log(repos[i].issues[j].labels);
+            // console.log(repo_issues_label);
+            for(var k=0;k<repo_issues_label.length;k++){
+              var repo_issues_labeldummy = repos[i].issues[j].labels[k]
+              // console.log(repos[i].issues[j].labels[k].name)
+              // console.log(repo_issues_labeldummy);
+              if(dummyLabelDictionary[repo_issues_labeldummy.name]){
+                dummyLabelDictionary[repo_issues_labeldummy.name] += 1;
+              }
+              else{
+                dummyLabelDictionary[repo_issues_labeldummy.name] = 1;
+              }
+            }
+          }
+          repos[i]['labelDictionary'] = dummyLabelDictionary;
+        }
+        console.log(repos);
+      })
+    }
 
+    getrepo();
+    </script>
   </body>
 </html>
