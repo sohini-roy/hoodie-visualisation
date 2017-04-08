@@ -1,4 +1,4 @@
-var width = 960,
+var width = 800,
     height = 500,
     padding = 1.5, // separation between same-color nodes
     clusterPadding = 6, // separation between different-color nodes
@@ -17,12 +17,12 @@ var create_repos = function(arguments,repolist) {
     // console.log(repos[i].issues);
     // console.log(repo_issues);
     for(var j= 0;j<repo_issues.length;j++){
-      var repo_issues_label = repos[i].issues[j].labels
+      var repo_issues_label = repo_issues[j].labels
       // console.log(repos[i].issues[j].labels);
       // console.log(repo_issues_label);
       if(repo_issues_label.length==0){
         if(dummyLabelDictionary['no labels']){
-          dummyLabelDictionary['no labels'] += 1;
+          dummyLabelDictionary['no labels'] = 1;
         }
         else{
           dummyLabelDictionary['no labels'] = 1;
@@ -32,12 +32,10 @@ var create_repos = function(arguments,repolist) {
         var repo_issues_labeldummy = repos[i].issues[j].labels[k]
         // console.log(repos[i].issues[j].labels[k].name)
         // console.log(repo_issues_labeldummy);
-        if(dummyLabelDictionary[repo_issues_labeldummy.name]){
-          dummyLabelDictionary[repo_issues_labeldummy.name] += 1;
+        if(!dummyLabelDictionary[repo_issues_labeldummy.name]){
+            dummyLabelDictionary[repo_issues_labeldummy.name] = [];
         }
-        else{
-          dummyLabelDictionary[repo_issues_labeldummy.name] = 1;
-        }
+        dummyLabelDictionary[repo_issues_labeldummy.name].push(repo_issues[j]);
       }
     }
     repos[i]['labelDictionary'] = dummyLabelDictionary;
@@ -53,11 +51,11 @@ function create_node(repos){
       var obj = {cluster : i,
                  repo_name : repos[i].name,
                  label_name : key,
-                 radius : Math.sqrt(repos[i].labelDictionary[key])*10 ,
-                 total_issues : repos[i].labelDictionary[key],
+                 radius : Math.sqrt(repos[i].labelDictionary[key].length)*10 ,
+                 total_issues : repos[i].labelDictionary[key].length,
                  x: Math.cos(i / m * 2 * Math.PI) * 200 + width / 2 + Math.random(),
                  y: Math.sin(i / m * 2 * Math.PI) * 200 + height / 2 + Math.random()
-               };
+      };
       nodedummy.push(obj);
       if(clusters[i]) {
         if(clusters[i].radius < obj.radius) {
@@ -148,12 +146,10 @@ function getrepo(){
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function(d) {
-            return "<span style = 'font-size:22px'>label name: <span style='color:red'>" + d.label_name + "</span><br>Number of Issues: <span style='color:red'>" + d.total_issues + "</span></span>";
+            return "<span style = 'font-size:22px'><br>label name: <span style='color:red'>" + d.label_name + "</span><br>Number of Issues: <span style='color:red'>" + d.total_issues + "</span><br></span>"
             })
 
-
-
-        var svg = d3.select("body").append("svg")
+        var svg = d3.select("#node").append("svg:svg")
             .attr("width", width)
             .attr("height", height);
 

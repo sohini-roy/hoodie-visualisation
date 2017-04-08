@@ -1,7 +1,16 @@
 
 body{
-  width: 20%;
+  width: 100%;
   margin: 0 auto;
+}
+div{
+  font-weight: bold;
+}
+ul li{
+  background-position: 0 5px;
+  line-height: 2;
+  padding: 0 0 4px 30px;
+  margin-left: 1em;
 }
 .d3-tip {
   line-height: 1;
@@ -25,4 +34,10 @@ body{
   margin: -1px 0 0 0;
   top: 100%;
   left: 0;
+}
+.list-item {
+  float : left;
+  padding : 1%;
+  display: inline;
+
 }
