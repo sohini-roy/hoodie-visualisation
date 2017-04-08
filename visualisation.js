@@ -148,8 +148,8 @@ function getrepo(){
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function(d) {
-            return "label name: <span style='color:red'>" + d.label_name + "</span><br>Number of Issues: <span style='color:red'>" + d.total_issues + "</span>";
-        })
+            return "<span style = 'font-size:22px'>label name: <span style='color:red'>" + d.label_name + "</span><br>Number of Issues: <span style='color:red'>" + d.total_issues + "</span></span>";
+            })
 
 
 
@@ -167,10 +167,10 @@ function getrepo(){
             .on('mouseover', tip.show)
             .on('mouseout', tip.hide);
 
-        var titles = node.append('svg:title')
-                          .text(function(d){
-                            return d.label_name+" ("+d.total_issues+")";
-                          });
+        // var titles = node.append('svg:title')
+        //                   .text(function(d){
+        //                     return d.label_name+" ("+d.total_issues+")";
+        //                   });
 
         node.transition()
             .duration(750)
