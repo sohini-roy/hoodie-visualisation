@@ -148,7 +148,7 @@ function getrepo(){
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function(d) {
-            return "<span style = 'font-size:22px'>label name: <span style='color:red'>" + d.label_name + "</span><br>Number of Issues: <span style='color:red'>" + d.total_issues + "</span></span>";
+            return "<span style = 'font-size:22px'><b>Label Name: </b><span style='color:red'>" + d.label_name + "</span><br><b>Number of Issues: </b><span style='color:red'>" + d.total_issues + "</span></span>";
             })
 
 
