@@ -21,12 +21,10 @@ var create_repos = function(arguments,repolist) {
       // console.log(repos[i].issues[j].labels);
       // console.log(repo_issues_label);
       if(repo_issues_label.length==0){
-        if(dummyLabelDictionary['no labels']){
-          dummyLabelDictionary['no labels'] = 1;
+        if(!dummyLabelDictionary['no labels']){
+          dummyLabelDictionary['no labels'] = [];
         }
-        else{
-          dummyLabelDictionary['no labels'] = 1;
-        }
+          dummyLabelDictionary['no labels'].push(repo_issues[j]);
       }
       for(var k=0;k<repo_issues_label.length;k++){
         var repo_issues_labeldummy = repos[i].issues[j].labels[k]
@@ -39,6 +37,7 @@ var create_repos = function(arguments,repolist) {
       }
     }
     repos[i]['labelDictionary'] = dummyLabelDictionary;
+    console.log(dummyLabelDictionary  );
   }
   return repos;
 }
