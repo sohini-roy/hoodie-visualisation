@@ -1,4 +1,4 @@
-var width = 800,
+var width = 945,
     height = 500,
     padding = 1.5, // separation between same-color nodes
     clusterPadding = 6, // separation between different-color nodes
@@ -37,19 +37,41 @@ var create_repos = function(arguments,repolist) {
       }
     }
     repos[i]['labelDictionary'] = dummyLabelDictionary;
-    console.log(dummyLabelDictionary  );
+    // console.log(dummyLabelDictionary);
   }
   return repos;
 }
+
+function extract_issue_link(issue_list){
+  // console.log(labelDictionary);
+  let issue_name_link = [];
+  for(i = 0; i < issue_list.length; i++) {
+    issue_name_link.push(issue_list[i].html_url);
+  }
+  return issue_name_link;
+}
+
+function extract_issue_name(issue_list){
+  // console.log(labelDictionary);
+  let issue_name_list = [];
+  for(i = 0; i < issue_list.length; i++) {
+    issue_name_list.push(issue_list[i].title);
+  }
+  return issue_name_list;
+}
+
 function create_node(repos){
   var m = repos.length;
   var nodedummy = [];
   var clusters = [];
   for(var i = 0;i<repos.length;i++){
     for(key in (repos[i].labelDictionary)){
+      // console.log(repos[i]);
       var obj = {cluster : i,
                  repo_name : repos[i].name,
                  label_name : key,
+                 issues_list: extract_issue_name(repos[i].labelDictionary[key]),
+                 issues_link : extract_issue_link(repos[i].labelDictionary[key]),
                  radius : Math.sqrt(repos[i].labelDictionary[key].length)*10 ,
                  total_issues : repos[i].labelDictionary[key].length,
                  x: Math.cos(i / m * 2 * Math.PI) * 200 + width / 2 + Math.random(),
@@ -65,6 +87,7 @@ function create_node(repos){
       }
     }
   }
+  console.log(nodedummy);
   return {nodes : nodedummy, clusters : clusters};
 }
 
@@ -148,19 +171,44 @@ function getrepo(){
             return "<span style = 'font-size:22px'><b>Label Name: </b><span style='color:red'>" + d.label_name + "</span><br><b>Number of Issues: </b><span style='color:red'>" + d.total_issues + "</span></span>";
             })
 
+        // var tip_issue_list = d3.tip()
+        //                        .attr('class', 'd3.tip')
+        //                        .offset([0,0])
+        //                        .(function(d) {
+        //                          return(d.issues_list)
+        //                        })
+
         var svg = d3.select("#node").append("svg:svg")
             .attr("width", width)
             .attr("height", height);
 
         svg.call(tip);
 
+        // var svg = d3.select("#issue_list").append("svg:svg")
+        //             .attr("width", width)
+        //             .attr("height", height);
+
+        // svg.call(tip_issue_list);
+
+        function populate(issues_list, issues_link) {
+          $('#issue-list').html('<ol>');
+          for(var i=0;i<issues_list.length;i++){
+          $('#issue-list').append('<li style="padding:2px"><a style="color:blue;text-decoration: none;" href='+issues_link[i]+'>'+issues_list[i]+'</a></li>');
+          }
+          $('#issue-list').append('</ol>');
+        }
+
         var node = svg.selectAll("circle")
             .data(nodes)
-          .enter().append("circle")
+            .enter().append("circle")
             .style("fill", function(d) { return color(d.cluster); })
             .call(force.drag)
             .on('mouseover', tip.show)
-            .on('mouseout', tip.hide);
+            .on('mouseout', tip.hide)
+            .on('click', function(d) {
+             populate(d.issues_list, d.issues_link);
+            })
+            // .on('mouseout', tip_issue_list.hide);
 
         // var titles = node.append('svg:title')
         //                   .text(function(d){
