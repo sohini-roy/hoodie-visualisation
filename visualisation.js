@@ -1,4 +1,4 @@
-var width = 945,
+var width = 900,
     height = 500,
     padding = 1.5, // separation between same-color nodes
     clusterPadding = 6, // separation between different-color nodes
@@ -191,11 +191,10 @@ function getrepo(){
         // svg.call(tip_issue_list);
 
         function populate(issues_list, issues_link) {
-          $('#issue-list').html('<ol>');
+          $('#issue-list').empty();
           for(var i=0;i<issues_list.length;i++){
-          $('#issue-list').append('<li style="padding:2px"><a style="color:blue;text-decoration: none;" href='+issues_link[i]+'>'+issues_list[i]+'</a></li>');
+            $('#issue-list').append('<li style="padding:2px"><a style="color:blue;text-decoration: none;" href='+issues_link[i]+'>'+issues_list[i]+'</a></li>');
           }
-          $('#issue-list').append('</ol>');
         }
 
         var node = svg.selectAll("circle")

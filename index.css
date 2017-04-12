@@ -37,14 +37,18 @@ ul li{
 }
 .list-item {
   float : left;
-  padding : 1%;
   display: inline;
 
 }
 .issue-div{
-  margin-top: 2%;
+  margin-top: 3%;
   margin-left: 2%;
 }
 .div-left{
   background-color: #FFCDD2;
+  height: 677px;
+}
+#legend_wrapper{
+  /*background-color: #DCDCDC;*/
+  margin: 0;
 }
