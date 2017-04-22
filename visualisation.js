@@ -98,7 +98,6 @@ function create_node(repos){
 }
 
 function getrepo(){
-  var token = "ec4b69ecbd6d862b79f183c522e55338cf97fb3f"
   var repoDummyPromises = []
   var repolist = [
   {
