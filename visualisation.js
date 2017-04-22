@@ -207,7 +207,7 @@ function getrepo(){
     function populate(issues_list, issues_link) {
       $('#noti-box').empty();
       for(var i=0;i<issues_list.length;i++){
-        $('#noti-box').append('<div class="'+issue_class[i%(issue_class.length)]+'"><button data-dismiss="alert" class="close close-sm" type="button"><i class="fa fa-times"></i></button><a style="text-decoration: none;" href='+issues_link[i]+'>'+issues_list[i]+'</a></div>');
+        $('#noti-box').append('<div class="'+issue_class[i%(issue_class.length)]+'"><a style="color:black; text-decoration: none;" target="_blank" href='+issues_link[i]+'>'+issues_list[i]+'</a></div>');
       }
     }
 
