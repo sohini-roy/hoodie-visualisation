@@ -164,7 +164,7 @@ function getrepo(){
     //                          return(d.issues_list)
     //                        })
 
-  
+
     var svg = d3.select("#node").append("svg:svg")
     .attr("width", width)
     .attr("height", height);
@@ -178,12 +178,25 @@ function getrepo(){
 
     // svg.call(tip_issue_list);
 
+    var issue_class = ['alert alert-block alert-danger', 'alert alert-success', 'alert alert-info', 'alert alert-warning'];
+
     function populate(issues_list, issues_link) {
-      $('#issue-list').empty();
+      $('#noti-box').empty();
       for(var i=0;i<issues_list.length;i++){
-        $('#issue-list').append('<li style="padding:2px"><a style="color:blue;text-decoration: none;" href='+issues_link[i]+'>'+issues_list[i]+'</a></li>');
+        $('#noti-box').append('<div class="'+issue_class[i%(issue_class.length)]+'"><button data-dismiss="alert" class="close close-sm" type="button"><i class="fa fa-times"></i></button><a style="text-decoration: none;" href='+issues_link[i]+'>'+issues_list[i]+'</a></div>');
       }
     }
+
+    // append('<li style="padding:2px"><a style="color:blue;text-decoration: none;" href='+issues_link[i]+'>'+issues_list[i]+'</a></li>');
+
+    // <div class="alert alert-block alert-danger">
+    //     <button data-dismiss="alert" class="close close-sm" type="button">
+    //         <i class="fa fa-times"></i>
+    //     </button>
+    //     <strong>Oh snap!</strong> Change a few things up and try submitting again.
+    // </div>
+
+
 
     var node = svg.selectAll("circle")
     .data(nodes)
