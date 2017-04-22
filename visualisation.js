@@ -1,4 +1,4 @@
-var width = 585,
+var width = 695,
     height = 360,
     padding = 1.5, // separation between same-color nodes
     clusterPadding = 6, // separation between different-color nodes
@@ -167,12 +167,12 @@ function getrepo(){
     .on("tick", tick)
     .start();
 
-    var tip = d3.tip()
-    .attr('class', 'd3-tip')
-    .offset([-10, 0])
-    .html(function(d) {
-      return "<span style = 'font-size:22px'><b>Label Name: </b><span style='color:red'>" + d.label_name + "</span><br><b>Number of Issues: </b><span style='color:red'>" + d.total_issues + "</span></span>";
-    })
+    // var tip = d3.tip()
+    // .attr('class', 'd3-tip')
+    // .offset([-10, 0])
+    // .html(function(d) {
+    //   return "<span style = 'font-size:22px'><b>Label Name: </b><span style='color:red'>" + d.label_name + "</span><br><b>Number of Issues: </b><span style='color:red'>" + d.total_issues + "</span></span>";
+    // })
 
     // var tip_issue_list = d3.tip()
     //                        .attr('class', 'd3.tip')
@@ -187,7 +187,7 @@ function getrepo(){
     .attr("height", height);
 
 
-     svg.call(tip);
+    //  svg.call(tip);
 
      console.log(seen_labels);
      $('#total_repo').html(repolist.length);
@@ -227,8 +227,12 @@ function getrepo(){
     .enter().append("circle")
     .style("fill", function(d) { return color(d.cluster); })
     .call(force.drag)
-    .on('mouseover', tip.show)
-    .on('mouseout', tip.hide)
+    .on('mouseover', function(d){
+      $('#label_space').html("<span style = 'font-size:15px'><b>Label Name: </b><span style='color:red'>" + d.label_name + "</span><br><b>Number of Issues: </b><span style='color:red'>" + d.total_issues + "</span></span>");
+    })
+    .on('mouseout', function(d){
+      $('#label_space').html();
+    })
     .on('click', function(d) {
       populate(d.issues_list, d.issues_link);
     })
