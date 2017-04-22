@@ -1,5 +1,5 @@
-var width = 900,
-    height = 500,
+var width = 585,
+    height = 360,
     padding = 1.5, // separation between same-color nodes
     clusterPadding = 6, // separation between different-color nodes
     maxRadius = 12;
@@ -164,11 +164,13 @@ function getrepo(){
     //                          return(d.issues_list)
     //                        })
 
+  
     var svg = d3.select("#node").append("svg:svg")
     .attr("width", width)
     .attr("height", height);
 
-    svg.call(tip);
+
+     svg.call(tip);
 
     // var svg = d3.select("#issue_list").append("svg:svg")
     //             .attr("width", width)
