@@ -3,7 +3,8 @@ var width = 585,
     padding = 1.5, // separation between same-color nodes
     clusterPadding = 6, // separation between different-color nodes
     maxRadius = 12;
-
+    var num_issues = 0, num_labels = 0;
+    var seen_labels ={};
 var create_repos = function(arguments,repolist) {
   var repos = [];
 
@@ -11,14 +12,22 @@ var create_repos = function(arguments,repolist) {
     repos.push({name : repolist[i].name,issues : arguments[i][0]});
   }
 
+
   for(var i=0;i <repos.length;i++){
     var dummyLabelDictionary = {};
     var repo_issues = repos[i].issues
+    num_issues = num_issues + repo_issues.length;
     for(var j= 0;j<repo_issues.length;j++){
       var repo_issues_label = repo_issues[j].labels
       if(repo_issues_label.length==0){
         if(!dummyLabelDictionary['no labels']){
           dummyLabelDictionary['no labels'] = [];
+
+          if(!seen_labels['no labels']){
+            seen_labels['no labels'] = true;
+            ++num_labels;
+          }
+
         }
           dummyLabelDictionary['no labels'].push(repo_issues[j]);
       }
@@ -26,6 +35,11 @@ var create_repos = function(arguments,repolist) {
         var repo_issues_labeldummy = repos[i].issues[j].labels[k]
         if(!dummyLabelDictionary[repo_issues_labeldummy.name]){
             dummyLabelDictionary[repo_issues_labeldummy.name] = [];
+
+            if(!seen_labels[repo_issues_labeldummy.name]){
+              seen_labels[repo_issues_labeldummy.name] = true;
+              ++num_labels;
+            }
         }
         dummyLabelDictionary[repo_issues_labeldummy.name].push(repo_issues[j]);
       }
@@ -43,10 +57,13 @@ function extract_issue_link(issue_list){
   return issue_name_link;
 }
 
+
+var num_of_issues = [];
 function extract_issue_name(issue_list){
   let issue_name_list = [];
   for(i = 0; i < issue_list.length; i++) {
     issue_name_list.push(issue_list[i].title);
+    num_of_issues.push(issue_list[i].title);
   }
   return issue_name_list;
 }
@@ -171,6 +188,13 @@ function getrepo(){
 
 
      svg.call(tip);
+
+     console.log(seen_labels);
+     $('#total_repo').html(repolist.length);
+     $('#total_labels').html(num_labels);
+     $('#issues_total').html(num_of_issues.length);
+    //  $('#total_docs').html(repolist.length);
+
 
     // var svg = d3.select("#issue_list").append("svg:svg")
     //             .attr("width", width)
